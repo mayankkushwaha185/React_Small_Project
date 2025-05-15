@@ -9,11 +9,16 @@ const OutsideClick = () => {
   useEffect(() => {
     if (!isOpen) return;
     const handleClickOutside = (e) => {
-      console.log(e.target);
+      console.log(e.target, dropdownRef);
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
     };
     document.addEventListener("mousedown", handleClickOutside);
 
-    return document.removeEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, [isOpen]);
 
   return (
